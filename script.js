@@ -87,6 +87,7 @@ class Simple3DViewer {
         this.useZBuffer = true;
         
         this.rotation = { x: 0, y: 0, z: 0 };
+        // Расстояние до объекта, Высота камеры, Угол вокруг объекта, Тип проекции
         this.camera = { distance: 5, height: 0, angle: 0 };
         
         // Z-буфер
@@ -283,6 +284,7 @@ class Simple3DViewer {
         document.getElementById(activeId).classList.add('active-button');
     }
     
+    // Камера движется по окружности вокруг начала координат на расстоянии
     getCameraPosition() {
         return new Point3D(
             Math.sin(this.camera.angle) * this.camera.distance,
@@ -327,6 +329,7 @@ class Simple3DViewer {
         return new Point3D(x, y, z);
     }
     
+    // Матрица проекции
     projectPoint(point) {
         const camPos = this.getCameraPosition();
         
@@ -337,6 +340,8 @@ class Simple3DViewer {
         
         if (this.isPerspective) {
             // Перспективная проекция
+            // dz - расстояние от камеры до объекта
+            // Чем ДАЛЬШЕ объект → тем БОЛЬШЕ dz → тем МЕНЬШЕ scale
             const fov = 500;
             const scale = fov / Math.max(dz, 0.1);
             return {
